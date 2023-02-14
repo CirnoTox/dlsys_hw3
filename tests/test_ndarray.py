@@ -131,6 +131,8 @@ def test_setitem_ewise(params, device):
     _B = np.random.randn(*rhs_shape)
     A = nd.array(_A, device=device)
     B = nd.array(_B, device=device)
+    print("shape",lhs_shape,rhs_shape)
+    print("slice",lhs_slices,rhs_slices)
     start_ptr = A._handle.ptr()
     A[lhs_slices] = B[rhs_slices]
     _A[lhs_slices] = _B[rhs_slices]
@@ -326,7 +328,8 @@ def test_scalar_power(device):
     A = np.random.randn(5, 5)
     B = nd.array(A, device=device)
     np.testing.assert_allclose(np.power(A, 5.), (B**5.).numpy(), atol=1e-5, rtol=1e-5)
-    np.testing.assert_allclose(np.power(A, 0.5), (B**0.5).numpy(), atol=1e-5, rtol=1e-5)
+    with np.errstate(invalid='ignore'):
+        np.testing.assert_allclose(np.power(A, 0.5), (B**0.5).numpy(), atol=1e-5, rtol=1e-5)
 
 
 @pytest.mark.parametrize("device", _DEVICES, ids=["cpu", "cuda"])

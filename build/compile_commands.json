@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/arch/Desktop/dlsys/dlsys_hw3/build",
+  "command": "/usr/sbin/g++ -Dndarray_backend_cpu_EXPORTS -isystem /usr/include/python3.10 -std=c++11 -O2 -march=native  -g -fPIC -fvisibility=hidden -o CMakeFiles/ndarray_backend_cpu.dir/src/ndarray_backend_cpu.cc.o -c /home/arch/Desktop/dlsys/dlsys_hw3/src/ndarray_backend_cpu.cc",
+  "file": "/home/arch/Desktop/dlsys/dlsys_hw3/src/ndarray_backend_cpu.cc"
+}
+]

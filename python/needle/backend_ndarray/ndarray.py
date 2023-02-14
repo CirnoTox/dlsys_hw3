@@ -244,7 +244,6 @@ class NDArray:
         """
 
         # BEGIN YOUR SOLUTION
-        print(self.size)
         if prod(new_shape) != self.size:
             raise ValueError()
 
@@ -306,12 +305,7 @@ class NDArray:
             0 if self.shape[i] == 1 else self._strides[i]
             for i in range(len(new_shape))
         ])
-        print(newStrides)
-        print(new_shape)
-        print(self.shape)
-
-        print(self.as_strided(new_shape, newStrides))
-        print(self.numpy())
+        
         return self.as_strided(new_shape, newStrides)
         # END YOUR SOLUTION
 
@@ -378,25 +372,27 @@ class NDArray:
 
         # BEGIN YOUR SOLUTION
         newShape = []
+        newStrides=[]
         offest = 0
         itIndex=0
         for s in idxs:
             start = s.start
             stop = s.stop
             step = s.step
-            newShape.append(int(math.floor(stop-start)/step))
-            offest+=start*self._strides[itIndex]
+            newShape.append(math.ceil(math.floor(stop-start)/step))
+            # if step!=1:
+            #     print("org shape:",int(math.floor(stop-start)))
+            #     print("new shape:",int(math.floor(stop-start)/step))
+            newStrides.append(self.strides[itIndex]*step)
+            offest+=start*self.strides[itIndex]
             itIndex+=1
 
         arr=NDArray.make(newShape,
-                           strides=self._strides,
+                           strides=tuple(newStrides),
                            device=self.device,
                            handle=self._handle,
                            offset=offest)
-        print(self.numpy())
-        print('newShape',newShape)
-        print('self._strides',self._strides)
-        print(arr)
+        
         return arr
         # END YOUR SOLUTION
 
