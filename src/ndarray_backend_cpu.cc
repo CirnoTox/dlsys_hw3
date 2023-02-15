@@ -408,12 +408,10 @@ namespace needle
       {
         for (uint32_t j = 0; j < TILE; j++)
         {
-          float sum = 0;
           for (uint32_t k = 0; k < TILE; k++)
           {
-            sum += a[i * TILE + k] * b[k * TILE + j];
+            out[i * TILE + j] += a[i * TILE + k] * b[k * TILE + j];
           }
-          out[i * TILE + j] += sum;
         }
       }
       /// END YOUR SOLUTION
@@ -442,15 +440,57 @@ namespace needle
        *
        */
       /// BEGIN YOUR SOLUTION
+
+      // for (int i = 0; i < 64; i++)
+      // {
+      //   a.ptr[i] = i;
+      //   b.ptr[i] = i;
+      //    out->ptr[i]=0;
+      // }
+      // debugFile << "A:"<<std::endl;
+      // for (int i = 0; i < 8; i++)
+      // {
+      //   for (int j = 0; j < 8; j++)
+      //   {
+      //     debugFile << a.ptr[i * 8 + j] << '\t';
+      //   }
+      //   debugFile << std::endl;
+      // }
+      // debugFile << "B:"<<std::endl;
+      // for (int i = 0; i < 8; i++)
+      // {
+      //   for (int j = 0; j < 8; j++)
+      //   {
+      //     debugFile << b.ptr[i * 8 + j] << '\t';
+      //   }
+      //   debugFile << std::endl;
+      // }
+      // AlignedDot(&(a.ptr[0]), &(b.ptr[0]), &(out->ptr[0]));
+      // debugFile << "Out:"<<std::endl;
+      // for (int i = 0; i < 8; i++)
+      // {
+      //   for (int j = 0; j < 8; j++)
+      //   {
+      //     debugFile << out->ptr[i * 8 + j] << '\t';
+      //   }
+      //   debugFile << std::endl;
+      // }
+
+      for (int i = 0; i < out->size; i++)
+      {
+        out->ptr[i] = 0;
+      }
       for (int i = 0; i < m / TILE; i++)
       {
         for (int j = 0; j < p / TILE; j++)
         {
-
           for (int k = 0; k < n / TILE; k++)
           {
-            AlignedDot(&(a.ptr[i * (n / TILE) + k]), &(b.ptr[k * (p / TILE) + j]), 
-            &(out->ptr[j * (m / TILE) + i]));
+            debugFile << "A:" << i * (n / TILE) + k << std::endl;
+            debugFile << "B:" << k * (p / TILE) + j << std::endl;
+            debugFile << "C:" << i * (p / TILE) + j << std::endl;
+            AlignedDot(&(a.ptr[(i * (n / TILE) + k)*TILE*TILE]), &(b.ptr[(k * (p / TILE) + j)*TILE*TILE]),
+                       &(out->ptr[(i * (p / TILE) + j)*TILE*TILE]));
           }
         }
       }
